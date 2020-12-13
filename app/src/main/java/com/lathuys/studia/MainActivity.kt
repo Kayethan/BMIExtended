@@ -1,7 +1,10 @@
 package com.lathuys.studia
 
 import android.content.Intent
-import android.content.SharedPreferences
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -22,13 +25,16 @@ import kotlinx.android.synthetic.main.activity_main.*
 import java.time.LocalDate
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
     private var currentCalc: IBmiCalc = MetricalBmiCalc()
     private var bmiValue = -1.0f
 
     private lateinit var historyDao: HistoryEntryDao
     private lateinit var db: HistoryDatabase
+
+    private var sensorManager: SensorManager? = null
+    private var isLight = true
 
     companion object {
         const val CALC: String = "BmiCalcName"
@@ -38,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         const val BMI_VALUE: String = "BmiValue"
         const val BMI_TV_CONTENT: String = "BmiTVContent"
         const val BMI_TV_COLOR: String = "BmiTVColor"
+
+        const val LIGHT_VAL: Int = 20
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,6 +55,8 @@ class MainActivity : AppCompatActivity() {
 
         db = HistoryDatabase.getDatabase(this)
         historyDao = db.historyEntryDao()
+
+        sensorManager = getSystemService(SENSOR_SERVICE) as SensorManager?
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -212,5 +222,32 @@ class MainActivity : AppCompatActivity() {
             putExtra(BmiHelper.BMI_VALUE, bmi)
         }
         startActivityForResult(intent, 0)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        sensorManager?.registerListener(this, sensorManager!!.getDefaultSensor(Sensor.TYPE_LIGHT), SensorManager.SENSOR_DELAY_NORMAL)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager?.unregisterListener(this)
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event!!.sensor.type == Sensor.TYPE_LIGHT) {
+            if (event.values[0] < LIGHT_VAL && isLight) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                isLight = false
+            }
+            else if (event.values[0] > LIGHT_VAL && !isLight) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                isLight = true
+            }
+        }
+    }
+
+    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
+
     }
 }
