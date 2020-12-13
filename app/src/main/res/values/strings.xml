@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">BMI Extended</string>
+    <string name="historyTitle">History</string>
+    <string name="detailsTitle">Details</string>
+
+    <string name="mass_kg">Mass kg</string>
+    <string name="height_cm">Height cm</string>
+    <string name="mass_lb">Mass lb</string>
+    <string name="height_in">Height in</string>
+    <string name="height">Height</string>
+    <string name="mass">Mass</string>
+    <string name="bmi">BMI</string>
+    <string name="count_bmi">Count BMI</string>
+    <string name="empty_value">Empty</string>
+
+    <string name="height_is_empty">Height is empty</string>
+    <string name="height_is_too_big">Height is too big</string>
+    <string name="height_is_too_little">Height is too little</string>
+
+    <string name="mass_is_empty">Mass is empty</string>
+    <string name="mass_is_too_big">Mass is too big</string>
+    <string name="mass_is_too_little">Mass is too little</string>
+
+    <string name="vsUnderWeight">Very severely underweight</string>
+    <string name="sUnderWeight">Severely underweight</string>
+    <string name="underWeight">Underweight</string>
+    <string name="normalWeight">Normal</string>
+    <string name="overWeight">Overweight</string>
+    <string name="iOverWeight">Moderately obese</string>
+    <string name="iiOverWeight">Severely obese</string>
+    <string name="iiiOverWeight">Very severely obese</string>
+
+    <string name="tooLittleMessage">You should eat more…</string>
+    <string name="normalMessage">Keep it like that!</string>
+    <string name="tooMuchMessage">You should eat less…</string>
+
+    <string name="returnButton">Return</string>
+
+    <string name="changeUnits">Change units (metric/imperial)</string>
+    <string name="showHistory">Show history</string>
+</resources>
